@@ -4,4 +4,6 @@ export const getSecretWord = async (setSecretWord) => {
   setSecretWord(res.data);
 };
 
-export default getSecretWord;
+const defaultExport = { getSecretWord };
+
+export default defaultExport;
