@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import hookActions from './store/actions/hookActions';
+import hookActions from './actions/hookActions';
 import Input from './Input';
 
 function reducer(state, action) {
