@@ -1,17 +1,21 @@
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { findByTestAttr, checkProps } from './test/testUtils';
 import Input from './Input';
 import languageContext from './context/languageContext';
 import { languageStrings } from './helpers/strings';
 import React from 'react';
+import successContext from './context/successContext';
 
 const secretWord = 'party';
-const setup = ({ secretWord, language }) => {
+const setup = ({ secretWord, language, success }) => {
   language = language || 'en';
   secretWord = secretWord || 'party';
+  success = success || false;
   return mount(
     <languageContext.Provider value={language}>
-      <Input secretWord={secretWord} />
+      <successContext.SuccessProvider value={[success, jest.fn()]}>
+        <Input secretWord={secretWord} />
+      </successContext.SuccessProvider>
     </languageContext.Provider>
   );
 };
@@ -64,3 +68,8 @@ describe('test controlled input field', () => {
     expect(mockSetCurrentGuess).toHaveBeenCalledWith('');
   });
 });
+
+// test('should not render input on success true', () => {
+//   const wrapper = setup({ secretWord: 'party', success: true });
+//   expect(wrapper.isEmptyRender()).toBe(true);
+// });
