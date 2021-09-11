@@ -1,26 +1,22 @@
-import { findByTestAttr, checkProps } from './test/testUtils';
+import { findByTestAttr } from './test/testUtils';
 import { shallow } from 'enzyme';
 import GuessedWords from './GuessedWords';
 import { languageStrings } from './helpers/strings';
 import React from 'react';
+import guessedWordsContext from './context/guessedWordsContext';
 
-const defaultProps = {
-  guessedWords: [{ guessedWord: 'train', letterMatchCount: 3 }],
+const setup = (guessedWords = []) => {
+  const mockGuessedWordsContext = jest
+    .fn()
+    .mockReturnValue([guessedWords, jest.fn()]);
+  guessedWordsContext.useGuessedWords = mockGuessedWordsContext;
+  return shallow(<GuessedWords />);
 };
-
-const setup = (props = {}) => {
-  const setupProps = { ...defaultProps, ...props };
-  return shallow(<GuessedWords {...setupProps} />);
-};
-
-test('does not throw warning with expected props', () => {
-  checkProps(GuessedWords, defaultProps);
-});
 
 describe('if there are no words guessed', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = setup({ guessedWords: [] });
+    wrapper = setup([]);
   });
 
   test('renders without error', () => {
@@ -41,7 +37,7 @@ describe('if there are words guessed', () => {
     { guessedWord: 'react', letterMatchCount: 5 },
   ];
   beforeEach(() => {
-    wrapper = setup({ guessedWords });
+    wrapper = setup(guessedWords);
   });
 
   test('renders without error', () => {
@@ -60,14 +56,14 @@ describe('if there are words guessed', () => {
 
 describe('languagePicker', () => {
   test('should correctly renders guess instructions string in english by default', () => {
-    const wrapper = setup({ guessedWords: [] });
+    const wrapper = setup([]);
     const guessInstructions = findByTestAttr(wrapper, 'guess-instructions');
     expect(guessInstructions.text()).toBe(languageStrings.en.guessPrompt);
   });
   test('should correctly renders guess instructions string in emoji', () => {
     const mockUserContext = jest.fn().mockReturnValue('emoji');
     React.useContext = mockUserContext;
-    const wrapper = setup({ guessedWords: [] });
+    const wrapper = setup([]);
     const guessInstructions = findByTestAttr(wrapper, 'guess-instructions');
     expect(guessInstructions.text()).toBe(languageStrings.emoji.guessPrompt);
   });

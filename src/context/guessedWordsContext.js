@@ -9,6 +9,7 @@ function useGuessedWords() {
       'useGuessedWords must be used within a GuessedWordsProvider'
     );
   }
+  return context;
 }
 
 function GuessedWordsProvider(props) {
