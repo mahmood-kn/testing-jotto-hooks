@@ -20,7 +20,7 @@ const Input = ({ secretWord }) => {
       { guessedWord: currentGuess, letterMatchCount },
     ];
     setGuessedWords(newGuessedWords);
-    // TODO: check against secretWord and update success if needed
+    //  check against secretWord and update success if needed
     if (currentGuess === secretWord) {
       setSuccess(true);
     }
