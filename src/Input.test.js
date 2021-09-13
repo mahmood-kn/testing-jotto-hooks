@@ -5,6 +5,7 @@ import languageContext from './context/languageContext';
 import { languageStrings } from './helpers/strings';
 import React from 'react';
 import successContext from './context/successContext';
+import guessedWordsContext from './context/guessedWordsContext';
 
 const secretWord = 'party';
 const setup = ({ secretWord, language, success }) => {
@@ -14,7 +15,9 @@ const setup = ({ secretWord, language, success }) => {
   return mount(
     <languageContext.Provider value={language}>
       <successContext.SuccessProvider value={[success, jest.fn()]}>
-        <Input secretWord={secretWord} />
+        <guessedWordsContext.GuessedWordsProvider>
+          <Input secretWord={secretWord} />
+        </guessedWordsContext.GuessedWordsProvider>
       </successContext.SuccessProvider>
     </languageContext.Provider>
   );
